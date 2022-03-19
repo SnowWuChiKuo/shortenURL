@@ -2,6 +2,8 @@
 const express = require('express')
 // 載入 mongoose 
 const mongoose = require('mongoose')
+// 載入 handlebars
+const exphbs = require('express-handlebars')
 
 
 
@@ -21,10 +23,13 @@ db.once('open', () => {
   console.log('mongodb connected!')
 })
 
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
+app.set('view engine', 'hbs')
+
 
 // 設定首頁路由
 app.get('/', (req, res) => {
-  res.send('hi')
+  res.render('index')
 })
 
 
