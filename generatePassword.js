@@ -11,13 +11,15 @@ function generatePassword() {
 
   const selection = lowerCaseLetters + upperCaseLetters + number
 
-  let shortenUrl = ''
+  let randomIndex = ''
   
   for (let i = 1; i <= 5; i++) {
-    shortenUrl += randomSelector(selection)
+    randomIndex += randomSelector(selection)
   } 
-  console.log(shortenUrl)
+  
+  const shortenUrl = `http://localhost:3000/${randomIndex}`
+  
   return shortenUrl
 }
 
-generatePassword()
+module.exports = generatePassword

@@ -13,7 +13,9 @@
   </div>
 
   <div class="col-3 mx-auto">
-    <input class="form-control mt-3" type="url" placeholder="URL" name="url" disabled="disabled">
+    {{#if shortUrl}}
+    <input class="form-control mt-3" type="url" placeholder="{{ shortUrl }}" name="url" disabled="disabled">
+    {{/if}}
     <div class="d-flex justify-content-center m-2">
       <button onclick="copyOnclick()" class="btn btn-success mx-1" id="copyBtn">Copy</button>
       <a href="/">

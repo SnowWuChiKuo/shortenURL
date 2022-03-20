@@ -4,8 +4,12 @@ const express = require('express')
 const mongoose = require('mongoose')
 // 載入 handlebars
 const exphbs = require('express-handlebars')
+const bodyParser = require('body-parser')
+
+const generatePassword = require('./generatePassword')
 
 const Url = require('./models/url')
+const url = require('./models/url')
 
 const app = express()
 const port = 3000
@@ -24,6 +28,9 @@ db.once('open', () => {
   console.log('mongodb connected!')
 })
 
+app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: true }))
+
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 
@@ -33,8 +40,21 @@ app.get('/', (req, res) => {
   res.render('index')
 })
 
+
 app.post('/', (req, res) => {
-  return res.render('success')
+  const shortUrl = generatePassword()
+  const link = `http://localhost:3000/`
+  Url.findOne({ Url: req.body.url })
+    // 輸入相同網址 return 同一網址
+    .then(urls => urls ? urls : Url.create({ Url: req.body.url, shortUrl }))
+    .then(urls => {
+      const shortUrl = link + urls.shortUrl
+      return res.render('success', {
+        Url: urls.Url,
+        shortUrl: shortUrl,
+      })
+    })
+    .catch(error => console.log(error))
 })
 
 
