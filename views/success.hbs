@@ -1,0 +1,25 @@
+<form action="/" method="POST">
+  <div class="display-4 text-center m-5">
+    <span>URL Shortener</span>
+  </div>
+
+  <div>
+    <img src="https://assets-lighthouse.alphacamp.co/uploads/image/file/16716/ExportedContentImage_00.png"
+      class="rounded mx-auto d-block" style="width: 200px;">
+  </div>
+
+  <div class="display-6 text-center m-5">
+    <span>Success! Please use this link:</span>
+  </div>
+
+  <div class="col-3 mx-auto">
+    <input class="form-control mt-3" type="url" placeholder="URL" name="url" disabled="disabled">
+    <div class="d-flex justify-content-center m-2">
+      <button onclick="copyOnclick()" class="btn btn-success mx-1" id="copyBtn">Copy</button>
+      <a href="/">
+        <button class="btn btn-warning mx-1" type="button">Back</button>
+      </a>
+    </div>
+  </div>
+
+</form>

@@ -5,9 +5,10 @@ const mongoose = require('mongoose')
 // 載入 handlebars
 const exphbs = require('express-handlebars')
 
-
+const Url = require('./models/url')
 
 const app = express()
+const port = 3000
 
 // 設定連線到 mongoDB
 mongoose.connect('mongodb://localhost/shortenURL', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -32,8 +33,12 @@ app.get('/', (req, res) => {
   res.render('index')
 })
 
+app.post('/', (req, res) => {
+  return res.render('success')
+})
+
 
 // 設定 port 3000
-app.listen(3000, () => {
-  console.log('App is running on http://localhost:3000')
+app.listen(port, () => {
+  console.log(`App is running on http://localhost:${port}`)
 })
