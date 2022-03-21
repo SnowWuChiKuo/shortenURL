@@ -1,4 +1,4 @@
-<form action="/" method="POST">
+<form method="post">
   <div class="display-4 text-center m-5">
     <span>URL Shortener</span>
   </div>
@@ -14,14 +14,26 @@
 
   <div class="col-3 mx-auto">
     {{#if shortUrl}}
-    <input class="form-control mt-3" type="url" placeholder="{{ shortUrl }}" name="url" disabled="disabled">
+    <div class="d-flex justify-content-center display-6 m-2">
+      <a class="generatedUrl" id="shortUrl" href="{{ Url }}">{{ shortUrl }}</a>
+    </div>
     {{/if}}
     <div class="d-flex justify-content-center m-2">
-      <button onclick="copyOnclick()" class="btn btn-success mx-1" id="copyBtn">Copy</button>
+      <button onclick="copy()" class="btn btn-success mx-1" id="copyBtn">Copy</button>
       <a href="/">
         <button class="btn btn-warning mx-1" type="button">Back</button>
       </a>
     </div>
+    <script>
+      function copy() {
+        const shortUrl = document.getElementById('copyBtn')
+        let url = document.getElementById('shortUrl').innerHTML
+        navigator.clipboard.writeText(url)
+          .then(() => { console.log('Url copied to clipboard!',url) })
+          .catch(error => console.log(error))
+          alert('copied')
+      }
+    </script>
   </div>
 
 </form>

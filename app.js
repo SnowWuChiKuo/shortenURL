@@ -49,14 +49,29 @@ app.post('/', (req, res) => {
     .then(urls => urls ? urls : Url.create({ Url: req.body.url, shortUrl }))
     .then(urls => {
       const shortUrl = link + urls.shortUrl
-      return res.render('success', {
-        Url: urls.Url,
-        shortUrl: shortUrl,
-      })
+      if (shortUrl.length > 27) {
+        return res.render('success', {
+          Url: urls.Url,
+          shortUrl: urls.shortUrl,
+        })
+      } else {
+        return res.render('success', {
+          Url: urls.Url,
+          shortUrl: shortUrl,
+        })
+      }
     })
     .catch(error => console.log(error))
 })
 
+app.get('/:shortUrl',(req, res) => {
+  const shortenURL = req.params.shortUrl
+  Url.findOne({ urlShort: `http://localhost:3000/${shortenURL}` })
+    .then(data => {
+      return res.redirect(`${data.Url}`)
+    })
+    .catch(error => console.log(error))
+})
 
 // 設定 port 3000
 app.listen(port, () => {
