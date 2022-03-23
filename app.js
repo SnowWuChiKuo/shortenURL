@@ -5,11 +5,9 @@ const mongoose = require('mongoose')
 // 載入 handlebars
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
 
-const generatePassword = require('./generatePassword')
-
-const Url = require('./models/url')
-const url = require('./models/url')
+const routes = require('./routes')
 
 const app = express()
 const port = 3000
@@ -28,50 +26,16 @@ db.once('open', () => {
   console.log('mongodb connected!')
 })
 
-app.use(express.urlencoded({ extended: true }))
-app.use(bodyParser.urlencoded({ extended: true }))
 
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 
+app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 
-// 設定首頁路由
-app.get('/', (req, res) => {
-  res.render('index')
-})
+app.use(routes)
 
-
-app.post('/', (req, res) => {
-  const shortUrl = generatePassword()
-  const link = `http://localhost:3000/`
-  Url.findOne({ Url: req.body.url })
-    // 輸入相同網址 return 同一網址
-    .then(urls => urls ? urls : Url.create({ Url: req.body.url, shortUrl }))
-    .then(urls => {
-      const shortUrl = link + urls.shortUrl
-      if (shortUrl.length > 27) {
-        return res.render('success', {
-          Url: urls.Url,
-          shortUrl: urls.shortUrl,
-        })
-      } else {
-        return res.render('success', {
-          Url: urls.Url,
-          shortUrl: shortUrl,
-        })
-      }
-    })
-    .catch(error => console.log(error))
-})
-
-app.get('/:shortUrl',(req, res) => {
-  const shortenURL = req.params.shortUrl
-  Url.findOne({ urlShort: `http://localhost:3000/${shortenURL}` })
-    .then(data => {
-      return res.redirect(`${data.Url}`)
-    })
-    .catch(error => console.log(error))
-})
 
 // 設定 port 3000
 app.listen(port, () => {
