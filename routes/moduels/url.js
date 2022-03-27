@@ -8,7 +8,7 @@ const Url = require('../../models/url')
 
 router.post('/', (req, res) => {
   const shortUrl = generatePassword()
-  const link = `http://localhost:3000/`
+  const link = req.headers.origin + '/'
   Url.findOne({ Url: req.body.url })
     // 輸入相同網址 return 同一網址
     .then(urls => urls ? urls : Url.create({ Url: req.body.url, shortUrl }))
@@ -17,12 +17,12 @@ router.post('/', (req, res) => {
       if (shortUrl.length > 27) {
         return res.render('success', {
           Url: urls.Url,
-          shortUrl: urls.shortUrl,
+          shortUrl: urls.shortUrl
         })
       } else {
         return res.render('success', {
           Url: urls.Url,
-          shortUrl: shortUrl,
+          shortUrl: shortUrl
         })
       }
     })
@@ -35,7 +35,7 @@ router.get('/:shortUrl', (req, res) => {
     .then(data => {
       return res.redirect(`${data.Url}`)
     })
-    .catch(error => console.log(error))
+    .catch(error => res.render('error', { error: error }))
 })
 
 module.exports = router

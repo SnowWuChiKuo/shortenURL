@@ -5,6 +5,7 @@ const urlSchema = new Schema({
   Url: {
     type: String,   // 資料型別為字串
     required: true, // 這個是必填欄位
+    
   },
   // 短網址資料
   shortUrl: {

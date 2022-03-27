@@ -19,7 +19,7 @@
     </div>
     {{/if}}
     <div class="d-flex justify-content-center m-2">
-      <button onclick="copy()" class="btn btn-success mx-1" id="copyBtn">Copy</button>
+      <button onclick="copy();return 0;" class="btn btn-success mx-1" id="copyBtn">Copy</button>
       <a href="/">
         <button class="btn btn-warning mx-1" type="button">Back</button>
       </a>
@@ -32,6 +32,7 @@
           .then(() => { console.log('Url copied to clipboard!',url) })
           .catch(error => console.log(error))
           alert('copied')
+          event.preventDefault();
       }
     </script>
   </div>

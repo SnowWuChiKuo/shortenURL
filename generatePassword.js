@@ -17,9 +17,8 @@ function generatePassword() {
     randomIndex += randomSelector(selection)
   } 
   
-  const shortenUrl = `http://localhost:3000/${randomIndex}`
   
-  return shortenUrl
+  return randomIndex
 }
 
 module.exports = generatePassword
